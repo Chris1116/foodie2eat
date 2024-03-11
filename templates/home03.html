@@ -1,0 +1,160 @@
+<!--
+
+enter location & restaurant
+
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Foodie2eat</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f8f8f8;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 50px;
+            font-size: 3em;
+        }
+
+        form {
+			/*
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            width: 60%;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			*/
+			margin-top:30px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+			border-radius: 10px;
+			width: 50%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+        }
+
+        label {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            padding: 15px;
+            font-size: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 20px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #333;
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+		.background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .background.visible {
+            opacity: 0.5;
+        }
+
+    </style>
+    <script>
+        const clientId = 'y4JWxHfYO2_d1PDMM_0EcqIY6B1rjnynepcGGSRIboo';
+
+        function updateBackground() {
+			//adding a query parameter to your fetch request -> query=food,restaurant
+            fetch(`https://api.unsplash.com/photos/random?client_id=${clientId}&orientation=landscape&query=food,restaurant`)
+                .then(response => response.json())
+                .then(data => {
+                    document.body.style.backgroundImage = `url(${data.urls.regular})`;
+                })
+                .catch(error => {
+                    console.error('Error fetching image from Unsplash API:', error);
+                });
+        }
+
+        setInterval(updateBackground, 10000);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <form action="/result" method="post">
+            <h1>Foodie2eat</h1>
+            <label for="restaurant_name">Enter Restaurant Name:</label>
+            <input type="text" id="restaurant_name" name="restaurant_name">
+            <label for="location">Enter Location:</label>
+            <input type="text" id="location" name="location">
+            <label for="shape">Select Shape:</label>
+            <select id="shape" name="shape">
+                <option value="message">Message Icon</option>
+                <option value="news">News Icon</option>
+                <option value="twitter">Twitter Icon</option>
+                <option value="github">Github Icon</option>
+            </select>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
+
+

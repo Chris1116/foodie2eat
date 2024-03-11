@@ -1,0 +1,195 @@
+<!--
+
+enter location & restaurant
+
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Foodie2eat</title>
+    <style>
+        body {
+			background-image: url('https://plus.unsplash.com/premium_photo-1663852297801-d277b7af6594?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Zm9vZHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60');        
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+			font-family: Arial, sans-serif;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin: 0;
+			padding: 0;
+		}
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 50px;
+            font-size: 3.5em;
+        }
+
+        img {
+            max-width: 50%;
+            border-radius: 5px;
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            margin: 20px;
+        }
+
+        .result-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            margin-top: 30px;
+        }
+
+        .result-container img {
+            margin-top: 20px;
+        }
+		/*
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .background.visible {
+            opacity: 1;
+        }
+		*/
+		h2 {
+            font-size: 2.5em; /* Increased size */
+        }
+
+        p {
+            font-size: 1.5em; /* Increased size */
+        }
+		button {
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 20px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            margin-top: 20px;
+        }
+
+		button:hover {
+            background-color: #333;
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+        }
+
+		.center-text {
+            text-align: center;
+        }
+
+        .star {
+            font-size: 1.5em;
+            color: gold;
+        }
+    </style>
+	<!--
+    <script>
+        const clientId = 'y4JWxHfYO2_d1PDMM_0EcqIY6B1rjnynepcGGSRIboo';
+
+        function updateBackground() {
+            const backgroundElement = document.querySelector('.background');
+            backgroundElement.classList.remove('visible');
+
+            fetch(`https://api.unsplash.com/photos/random?client_id=${clientId}&orientation=landscape`)
+                .then(response => response.json())
+                .then(data => {
+                    backgroundElement.style.backgroundImage = `url(${data.urls.regular})`;
+                    setTimeout(() => {
+                        backgroundElement.classList.add('visible');
+                    }, 100);
+                })
+                .catch(error => {
+                    console.error('Error fetching image from Unsplash API:', error);
+                });
+        }
+
+        updateBackground();
+    </script>
+	-->
+</head>
+<body>
+    <div class="background"></div>
+    <h1>Foodie2eat</h1>
+
+    <div class="result-container">
+		<!--
+        {% if 'wordcloud.png' in os.listdir('static') %}
+            <img src="{{ url_for('static', filename='wordcloud.png') }}" alt="Word Cloud">
+        {% endif %}
+		-->
+		{% if shape == 'message' %}
+		<img src="{{ url_for('static', filename='MessageCloud.png', t=timestamp) }}" alt="Message">
+		{% elif shape == 'news' %}
+		<img src="{{ url_for('static', filename='NewsCloud.png', t=timestamp) }}" alt="NEWS">
+		{% elif shape == 'twitter' %}
+		<img src="{{ url_for('static', filename='TwitterCloud.png', t=timestamp) }}" alt="Twitter">
+		{% elif shape == 'github' %}
+		<img src="{{ url_for('static', filename='GithubCloud.png', t=timestamp) }}" alt="Github">
+		{% endif %}
+        <div class="center-text">
+            <h2>Reviews Summary:</h2>
+            <p>{{ summary }}</p>
+        </div>
+
+        <div class="center-text">
+            <h2>Sentiment Analysis Result:</h2>
+             <!-- without tranclated score 
+            <p>{{ sentiment }}</p>
+            -->
+            <p>Sentiment Value: {{ sentiment }}</p>
+            <p>Translated Score: {{ sentiment_score }}</p>
+            <!--
+            <p>Star Rating: {{ star_rating }} / 5</p>
+            -->
+            <p>Star Rating: {{ star_rating }} / 5</p>
+            {% for i in range(sentiment_integer) %}
+            <span class="star">★</span> <!-- full star -->
+            {% endfor %}
+            {% if sentiment_decimal >= 0.5 %}
+            <span class="star">☆</span> <!-- half star -->
+            {% endif %}
+            {% for i in range(5 - sentiment_integer - (1 if sentiment_decimal >= 0.5 else 0)) %}
+            <span class="star">✩</span> <!-- empty star -->
+            {% endfor %}
+            <!--
+            <p> / 5</p>
+            <div>
+                {% for _ in range(star_rating|int) %}
+                    <span class="star">&#9733;</span> 
+                {% endfor %}
+                {% if star_rating != star_rating|int %}
+                    <span class="star">&#9734;</span> 
+                {% endif %}
+                {% for _ in range(5-(star_rating+0.5)|int) %}
+                    <span class="star">&#10025;</span> 
+                {% endfor %}
+            </div>
+            -->
+        </div>
+		<!-- Add the "Try again" button -->
+        <button onclick="location.href='/'">Try again</button>
+    </div>
+</body>
+</html>
+
